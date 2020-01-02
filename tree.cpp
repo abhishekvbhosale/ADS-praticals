@@ -1,4 +1,5 @@
 #include <iostream>
+#include "Stack.h"
 using namespace std;
 struct node
 {
@@ -21,7 +22,7 @@ class Tree
 			node *curr,*temp;
 			do{
 				curr=new node;
-				cout<<"\nEnter the data (single Alphabet)--\t";
+				cout<<"\nEnter the data --\t";
 				cin>>curr->data;
 				curr->left=curr->right=NULL;
 				if(root==NULL)
@@ -84,6 +85,59 @@ class Tree
 				preorder(root->right);
 			}
 		}
+		void postorder(node* root)
+		{
+			if(root!=NULL)
+			{
+				preorder(root->left);
+				preorder(root->right);
+				cout<<root->data;
+			}
+		}
+		void nonRecursive_inorder(node* root)
+		{
+			Stack<node*> s1;
+			node *temp,*curr;
+			temp=root;
+			do
+			{
+				while(temp!=NULL)
+				{
+					s1.push(temp);
+					temp=temp->left;
+				}
+				if(!s1.isEmpty())
+				{
+					temp=s1.pop();
+					cout<<temp->data;
+					temp=temp->right;
+				}
+				else
+					break;
+			}while(1);
+		}
+		void nonRecursive_preorder(node* root)
+		{
+			Stack<node*> s1;
+			node *temp,*curr;
+			temp=root;
+			do
+			{
+				while(temp!=NULL)
+				{
+					cout<<temp->data;
+					s1.push(temp);
+					temp=temp->left;
+				}
+				if(!s1.isEmpty())
+				{
+					temp=s1.pop();
+					temp=temp->right;
+				}
+				else
+					break;
+			}while(1);
+		}
 };
 int main()
 {
@@ -91,7 +145,7 @@ int main()
 	int ch;
 	int a=1;
 	do{
-			cout<<"\n1.Create\n2.Inorder\n3.Preorder\n4.Exit\n--\t";
+			cout<<"\n1.Create\n2.Inorder\n3.Preorder\n4.Postorder\n5.Non-Recursive Inorder\n6.Non-Recursive Preorder\n7.Exit\n--\t";
 			cin>>ch;
 			switch(ch)
 			{
@@ -99,12 +153,26 @@ int main()
 						t1.create();
 						break;
 				case 2:
+						cout<<"\nThe Recursive Inorder is --\n\t";
 						t1.inorder(t1.head);
 						break;
 				case 3:
+						cout<<"\nThe Recursive Preorder is --\n\t";
 						t1.preorder(t1.head);
 						break;
 				case 4:
+						cout<<"\nThe Recursive Postorder is --\n\t";
+						t1.postorder(t1.head);
+						break;
+				case 5:
+						cout<<"\nThe Non-Recursive Inorder is --\n\t";
+						t1.nonRecursive_inorder(t1.head);
+						break;
+				case 6:
+						cout<<"\nThe Non-Recursive Preorder is --\n\t";
+						t1.nonRecursive_preorder(t1.head);
+						break;
+				case 7:
 						a=0;
 			}
 		}while(a);
