@@ -132,34 +132,115 @@ class Binary_tree
 		    		inorder(root->right);
 		    	}
 		    }
-		    void descending(node* root) //descending
+			void descending(node* root) //descending
 			{
 				Stack<node*> s1;
-				
+				Stack<node*> s2;
+				node* temp, * curr;
+				temp = root;
+				do
+				{
+					while (temp != NULL)
+					{
+						s1.push(temp);
+						temp = temp->left;
+					}
+					if (!s1.isEmpty())
+					{
+						temp = s1.pop();
+						s2.push(temp);
+						temp = temp->right;
+					}
+					else
+						break;
+				} while (1);
+				while (!s2.isEmpty())
+				{
+					curr = s2.pop();
+					cout << curr->word << "\t";
+				}
 			}
-			/*node* Delete(char key[])
+			node* findmin(node* root)
 			{
-				node* del1=search(key,root);
-				if(del1==0)
-					cout<<"\nNo such word"<<endl;
+				if(root==NULL || root->left==NULL)
+					return root;
+				findmin(root->left);
+			}
+			node* Delete(node* root,char key[])
+			{
+				if(root==NULL)
+					return root;
+				if(strcmp(key,root->word)<0)
+					root->left=Delete(root->left,key);
+				else if(strcmp(key,root->word)>0)
+					root->right=Delete(root->right,key);
 				else
 				{
-					if(del1->left==NULL && del2->right==NULL)
+					if(root->left==NULL && root->right==NULL)
 					{
-						
-					}	
+						delete root;
+						root=NULL;
+					}
+					else if(root->right==NULL)
+					{
+						node* temp=root;
+						root=root->left;
+						delete temp;
+					}
+					else if(root->left==NULL)
+					{
+						node* temp=root;
+						root=root->right;
+						delete temp;
+					}
+					else
+					{
+						node* temp=findmin(root->right);
+						strcpy(root->word,temp->word);
+						strcpy(root->meaning,temp->meaning);
+						root->right=Delete(root->right,root->word);
+					}
 				}
-			}*/
+				return root;
+			}
+
 };
 int main()
 {
 	Binary_tree t1;
-	t1.insert();
-	t1.inorder(t1.root);
-	cout<<endl;
-	//t1.edit();
-	//t1.display();
-	t1.postorder(t1.root);
+	int ch;
+	int exit=1;
+	char key[10];
+	do{
+			cout<<"\nEnter your choice for --\n\t1.Insert\n\t2.Display\n\t3.Delete\n\t4.Ascending\n\t5.Descending";
+			cout<<"\n\t6.Edit\n\t7.Exit\n\t\t--";
+			cin>>ch;
+			switch(ch)
+			{
+				case 1 :
+						t1.insert();
+						break;
+				case 2 :
+						t1.display();
+						break;
+				case 3 :
+						cout<<"\nEnter the vale to be deleted--\t"<<endl;
+						cin>>key;
+						t1.Delete(t1.root,key);
+						break;
+				case 4 :
+						t1.inorder(t1.root);
+						break;
+				case 5 :
+						t1.descending(t1.root);
+						break;
+				case 6 :
+						t1.edit();
+						break;
+				case 7 :
+						exit=0;
+			}
+	}while(exit);
 	cout<<endl;
 	return 0;
 }
