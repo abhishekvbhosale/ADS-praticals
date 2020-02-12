@@ -40,8 +40,19 @@ class Graph
 				for(int j=1;j<=x;j++)
 				{
 					curr=new node;
-					cout<<"\nEnter City Number: ";
+					cout<<"\nEnter City Number: \n";
+					for(int i=1;i<6;i++)
+						cout<<i<<"."<<city1[i]<<"\t";
+					cout<<"\n\t--";
 					cin>>curr->v;
+					if(curr->v==i)
+					{
+						while(curr->v==i)
+						{
+							cout<<"\nEnter a valid city number--\t";
+							cin>>curr->v;
+						}
+					}
 					curr->city=city1[curr->v];
 					cout<<"\nEnter Distance between Cities: ";
 					cin>>curr->distance;
@@ -56,10 +67,11 @@ class Graph
 			node *temp;
 			for(int i=1;i<=5;i++)
 			{
-				temp=head[i];
+				temp=head[i]->next;
+				cout<<head[i]->v<<"  "<<head[i]->city<<"\t";
 				while(temp!=NULL)
 				{
-					cout<<temp->v<<" "<<temp->city<<" "<<temp->distance<<"\t";
+					cout<<temp->city<<" "<<temp->distance<<"\t";
 					temp=temp->next;
 				}
 				cout<<endl;
